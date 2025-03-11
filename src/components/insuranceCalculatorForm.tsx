@@ -1,4 +1,13 @@
-import { Alert, Button, DatePicker, Form, Input, Select, Skeleton } from "antd";
+import {
+  Alert,
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  message,
+  Select,
+  Skeleton,
+} from "antd";
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
@@ -19,6 +28,7 @@ type InsuranceCalculatorFormInput = {
 const InsuranceCalculatorForm = () => {
   const [form] = Form.useForm();
   const dateFormat = "YYYY-MM-DD";
+  const [messageApi, contextHolder] = message.useMessage();
 
   const dispatch = useDispatch<AppDispatch>();
   const { plans, loading, error } = useSelector(
@@ -37,14 +47,22 @@ const InsuranceCalculatorForm = () => {
   }, [dispatch]);
 
   const onFinish = async (values: InsuranceCalculatorFormInput) => {
+    await messageApi.loading("Please wait...", 2);
+
     const apiUrl = import.meta.env.VITE_BASE_URL + "/premium-calculation";
 
-    await axios.post(apiUrl, values).then((response) => {
-      if (response?.data) {
-        dispatch(fetchInsurancePlans());
-        form.resetFields();
-      }
-    });
+    await axios
+      .post(apiUrl, values)
+      .then(async (response) => {
+        if (response?.data) {
+          await messageApi.success("Calculated successfully");
+          dispatch(fetchInsurancePlans());
+          form.resetFields();
+        }
+      })
+      .catch((error) => {
+        messageApi.error(error?.message);
+      });
   };
 
   return loading || insurancePlansLoading ? (
@@ -53,6 +71,7 @@ const InsuranceCalculatorForm = () => {
     </>
   ) : (
     <div className=" p-6">
+      {contextHolder}
       <h1 className="text-xl font-semibold mb-4">Insurance Calculator</h1>
 
       <div className="bg-white p-6 shadow rounded-md">
@@ -117,7 +136,7 @@ const InsuranceCalculatorForm = () => {
             <Select>
               <Select.Option value="YEARLY">YEARLY</Select.Option>
               <Select.Option value="HALFYEARLY">HALFYEARLY</Select.Option>
-              <Select.Option value="QUARTERLY ">QUARTERLY </Select.Option>
+              <Select.Option value="QUARTERLY">QUARTERLY</Select.Option>
               <Select.Option value="MONTHLY">MONTHLY</Select.Option>
             </Select>
           </Form.Item>
