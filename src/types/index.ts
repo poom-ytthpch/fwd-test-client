@@ -3,13 +3,6 @@ export enum Gender {
   FEMALE,
 }
 
-export enum PaymentFrequency {
-  YEARLY,
-  HALFYEARLY,
-  QUARTERLY,
-  MONTHLY,
-}
-
 export type Plan = {
   id?: string;
   planCode: string;
@@ -26,7 +19,7 @@ export type InsurancePlan = {
   modalPremium: number;
   productTerm: number;
   premiumPayingTerm: number;
-  paymentFrequencyCd: PaymentFrequency;
+  paymentFrequencyCd: PaymentFrequencyType;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -36,7 +29,7 @@ export type PremiumCalculationRequest = {
   dob: string;
   planCode: string;
   premiumPerYear: number;
-  paymentFrequency: PaymentFrequency;
+  paymentFrequency: PaymentFrequencyType;
 };
 
 export type PremiumCalculationResponse = {
@@ -49,4 +42,28 @@ export type getProductsResponse = {
   plans?: Plan[];
   status: number;
   message: string;
+};
+
+export type InsuranceCalculatorFormInput = {
+  fullName: string;
+  genderCd: string;
+  planCode: string;
+  premiumPerYear: string;
+  paymentFrequency: string;
+};
+
+export type GenderType = "MALE" | "FEMALE";
+
+export const GenderRecord: Record<GenderType, string> = {
+  MALE: "ชาย",
+  FEMALE: "หญิง",
+};
+
+export type PaymentFrequencyType = "YEARLY" | "HALFYEARLY" | "QUARTERLY" | "MONTHLY";
+
+export const PaymentFrequencyRecord: Record<PaymentFrequencyType, string> = {
+  YEARLY: "รายปี",
+  HALFYEARLY: "ราย 6 เดือน",
+  QUARTERLY: "ราย 3 เดือน",
+  MONTHLY: "รายเดือน",
 };

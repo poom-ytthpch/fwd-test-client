@@ -2,7 +2,7 @@ import InsuranceCalculatorForm from "./components/insuranceCalculatorForm";
 
 function App() {
   return (
-    <div className="flex flex-col bg-amber-500 h-vh">
+    <div className="flex justify-center items-center h-screen bg-amber-500">
       <InsuranceCalculatorForm />
     </div>
   );
