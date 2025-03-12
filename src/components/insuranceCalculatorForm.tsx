@@ -89,7 +89,7 @@ const InsuranceCalculatorForm = () => {
       {/* <h1 className="text-xl font-semibold mb-4">Insurance Calculator</h1> */}
 
       <div className="w-full flex flex-col md:flex-row justify-center items-center">
-        <div className="bg-white p-6 shadow rounded-t-2xl md:rounded-l-2xl w-[350px] md:w-[300px] h-[600px]">
+        <div className="bg-white p-6 shadow max-sm:rounded-t-2xl md:rounded-l-2xl w-[350px] md:w-[300px] h-[600px]">
           <Form form={form} layout="vertical" onFinish={onFinish}>
             <Form.Item
               name="fullName"
@@ -183,7 +183,7 @@ const InsuranceCalculatorForm = () => {
             showIcon
           />
         ) : (
-          <div className="p-2 bg-orange-200 h-[600px] w-[350px] rounded-b-2xl md:rounded-r-2xl  ">
+          <div className="p-2 bg-orange-200 h-[600px] w-[350px] max-sm:rounded-b-2xl md:rounded-r-2xl  ">
             {/* <InsuranceTable
               insurancePlans={insurancePlans}
               loading={insurancePlansLoading}
